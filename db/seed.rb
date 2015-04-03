@@ -1,27 +1,17 @@
 require_relative 'connection'
-require_relative 'lib/user'
-require_relative 'lib/account'
+require_relative '../lib/account'
+require_relative '../lib/transaction'
 
-User.destroy_all
+Transaction.destroy_all
 Account.destroy_all
 
+payees = ["Burger King", "McDonalds", "Wendy's"]
+tdates = ["3/1/15", "3/25/15","4/1/15"]
+categories = ["deposit", "withdrawal"]
 
-users = User.create([
-  {name: "bob"},
-  {name: "tom"},
-  {name: "sam"},
-  {name: "tim"}
-])
+account = Account.create(name: "Personal Checking")
 
-bob = User.find_by(name:"bob")
-bobs_accounts = bob.accounts.create([
-  {name: "checking"},
-  {name: "saving"}
-])
-
-tom = User.find_by(name:"tom")
-toms_accounts = tom.accounts.create([
-  {name: "tom1"},
-  {name: "tommy2"},
-  {name: "thomas3"}
-])
+20.times do
+  account.transactions.create( payee: payees.sample, tdate: tdates.sample,
+                               amount: rand(20), category: category.sample)
+end

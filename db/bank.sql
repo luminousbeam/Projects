@@ -1,17 +1,16 @@
+DROP TABLE IF EXISTS transactions;
 DROP TABLE IF EXISTS accounts;
-DROP TABLE IF EXISTS users;
-
-CREATE TABLE users (
-  id serial PRIMARY KEY,
-  first_name varchar(50) NOT NULL,
-  last_name varchar(50) NOT NULL
-);
 
 CREATE TABLE accounts (
-  id serial PRIMARY KEY,
-  payee varchar(100) NOT NULL,
-  amount integer NOT NULL,
-  enter_time timestamp,
-  category text not null,
-  user_id integer REFERENCES users(id)
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL
+);
+
+CREATE TABLE transactions (
+  id SERIAL PRIMARY KEY,
+  payee TEXT NOT NULL,
+  tdate TEXT NOT NULL,
+  amount MONEY NOT NULL,
+  category TEXT NOT NULL,
+  account_id INTEGER REFERENCES accounts(id)
 );

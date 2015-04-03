@@ -1,7 +1,19 @@
 class Account < ActiveRecord::Base
-  belongs_to :user
+  has_many :transactions, dependent: :destroy
+  validates :name, presence: true
 
   def to_s
-    return name
+    return "Name: #{name}"
   end
+
+  def deposit (amount)
+    @balance += amount
+  end
+
+  def withdraw (amount)
+    raise ArgumentError, "#{name} has insufficient funds."
+      if @balance < amount
+         @balance -= amount
+      end
+   end
 end
