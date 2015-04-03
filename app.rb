@@ -32,7 +32,7 @@ def get_trans_input
   trans_attr[:payee] = gets.chomp
   puts "Enter the transaction purchase date:"
   trans_attr[:tdate] = gets.chomp
-  puts "Enter the transaction amount, use negative(-) for withdrawals:"
+  puts "Enter the transaction amount:"
   trans_attr[:amount] = gets.chomp
   puts "Do you want to withdraw or deposit?"
   trans_attr[:category] = gets.chomp
@@ -76,12 +76,15 @@ loop do
     account = get_account
     transaction = get_trans(account)
     transaction.destroy
-  when "7" #get balance
+  when "7" #get sum of transaction type
     account = get_account
-    puts account.transactions.sum
+    puts "Do you want to sum your deposit or withdrawal entries?"
+    sum_choice = gets.chomp.to_s
+    puts "This is the sum of your #{sum_choice} entries."
+    puts Transaction.where(account_id: account.id).where(category: sum_choice).sum(:amount)
   when "8"
     break
   end
 end
 
-#binding.pry
+binding.pry
