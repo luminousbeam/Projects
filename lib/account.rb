@@ -6,14 +6,4 @@ class Account < ActiveRecord::Base
     return "Name: #{name}"
   end
 
-  def deposit (amount)
-    @balance += amount
-  end
-
-  def withdraw (amount)
-    raise ArgumentError, "#{name} has insufficient funds."
-      if @balance < amount
-         @balance -= amount
-      end
-   end
 end
