@@ -1,5 +1,5 @@
 require 'active_record'
-require 'pry'
+#require 'pry'
 
 require_relative 'db/connection'
 require_relative 'lib/account'
@@ -39,6 +39,7 @@ def get_trans_input
   return trans_attr
 end
 
+
 def menu
   puts "Choose option:
   1. List all accounts
@@ -71,20 +72,19 @@ loop do
     account = get_account
     new_trans = Transaction.create(get_trans_input)
     new_trans.account = account
-    new_trans.save
+      if Transaction.where(category: "withdraw")
+        new_trans.neg
+      else
+        new_trans.save
+      end
   when "6" #delete transaction
     account = get_account
     transaction = get_trans(account)
     transaction.destroy
   when "7" #get sum of transaction type
     account = get_account
-    puts "Do you want to sum your deposit or withdrawal entries?"
-    sum_choice = gets.chomp.to_s
-    puts "This is the sum of your #{sum_choice} entries."
-    puts Transaction.where(account_id: account.id).where(category: sum_choice).sum(:amount)
+    puts Transaction.where(account_id: account.id).sum(:amount)
   when "8"
     break
   end
 end
-
-binding.pry
